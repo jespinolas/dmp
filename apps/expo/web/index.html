@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>WaypointMap Editor</title>
+    <style>
+      html, body, #root { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+      /* Google Maps info-window overrides */
+      .gm-style .gm-style-iw-c { padding: 0 !important; border-radius: 8px !important; }
+      .gm-style .gm-style-iw-d { overflow: hidden !important; }
+      .gm-style .gm-style-iw-t::after { display: none !important; }
+      .wm-iw { min-width: 260px; font-family: system-ui, sans-serif; font-size: 13px; }
+      .wm-iw-header { background: #212529; color: #fff; padding: 8px 12px; border-radius: 8px 8px 0 0; font-weight: 700; font-size: 12px; letter-spacing: .04em; }
+      .wm-iw-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+      .wm-iw-row { display: flex; gap: 6px; }
+      .wm-iw-field { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+      .wm-iw-label { font-size: 10px; color: #6c757d; text-transform: uppercase; letter-spacing: .04em; }
+      .wm-iw-input { border: 1px solid #dee2e6; border-radius: 4px; padding: 3px 6px; font-size: 13px; width: 100%; box-sizing: border-box; }
+      .wm-iw-select { border: 1px solid #dee2e6; border-radius: 4px; padding: 3px 4px; font-size: 12px; width: 100%; box-sizing: border-box; }
+      .wm-iw-actions { display: flex; gap: 6px; padding: 8px 12px 10px; }
+      .wm-btn { border: none; border-radius: 4px; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+      .wm-btn-primary { background: #0d6efd; color: #fff; }
+      .wm-btn-danger  { background: #fff; border: 1px solid #dc3545 !important; color: #dc3545; }
+      .wm-shape-iw { padding: 12px 14px; font-family: system-ui, sans-serif; min-width: 200px; text-align: center; }
+      .wm-shape-iw h6 { margin: 0 0 10px; font-size: 13px; font-weight: 700; }
+      .wm-shape-iw .wm-btn { display: block; width: 100%; margin-bottom: 6px; padding: 7px; font-size: 13px; }
+      .wm-shape-iw .wm-btn-success { background: #28a745; color: #fff; }
+      .wm-shape-iw .wm-tip { font-size: 11px; color: #6c757d; margin-top: 6px; }
+      .wm-iw-copy-btn { background: none; border: 1px solid #dee2e6; border-radius: 4px; padding: 3px 6px; cursor: pointer; font-size: 12px; line-height: 1; align-self: flex-end; }
+      .wm-iw-copy-btn:hover { background: #f0f7ff; border-color: #0d6efd; }
+      .cursor-select { cursor: crosshair !important; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

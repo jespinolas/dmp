@@ -1,0 +1,14 @@
+{
+  "name": "waypointmap-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/expo"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace apps/expo run web",
+    "dev:ios": "npm --workspace apps/expo run ios",
+    "dev:android": "npm --workspace apps/expo run android",
+    "typecheck": "npm --workspace apps/expo run typecheck",
+    "server:run": "cd server && mvn spring-boot:run"
+  }
+}

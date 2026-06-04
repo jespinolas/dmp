@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "WaypointMap",
+    "slug": "waypointmap",
+    "owner": "martin.espinola",
+    "scheme": "waypointmap",
+    "orientation": "default",
+    "web": {
+      "bundler": "metro"
+    },
+    "android": {
+      "package": "com.waypointmap.app",
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "${EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"
+        }
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.waypointmap.app",
+      "config": {
+        "googleMapsApiKey": "${EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "38d128b4-701f-4c14-be2e-26010c341251"
+      }
+    }
+  }
+}

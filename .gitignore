@@ -1,0 +1,29 @@
+.DS_Store
+node_modules
+.expo
+dist
+build
+out
+.gradle
+target
+.idea
+*.iml
+# Secrets — never commit
+*.env
+!.env.example
+# Build artifacts
+local_eas_builds/
+*.apk
+*.aab
+*.keystore
+*.jks
+local.properties
+
+# Generated native projects (managed workflow — never commit)
+apps/expo/android/
+apps/expo/ios/
+
+# H2 database files (contain user data)
+data/
+*.mv.db
+*.trace.db

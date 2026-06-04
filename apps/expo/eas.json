@@ -1,0 +1,41 @@
+{
+  "cli": {
+    "version": ">= 19.0.0"
+  },
+  "build": {
+    "production": {
+      "android": {
+        "buildType": "app-bundle"
+      }
+    },
+    "production-apk": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "staging": {
+      "distribution": "internal"
+    },
+    "development-aab": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "development-apk": {
+      "android": {
+        "buildType": "apk"
+      },
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "internal-adhoc": {
+      "distribution": "internal"
+    }
+  }
+}

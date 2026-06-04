@@ -75,7 +75,7 @@ public class ReverseEngineeringController {
     public MissionPreviewResponse mockMission() {
         return new MissionPreviewResponse(
                 "mission-1",
-                "WaypointMap Public Replica",
+                "DMP Public Replica",
                 List.of("Polygon", "Rectangle"),
                 24,
                 "DJI KMZ preview"
@@ -144,7 +144,7 @@ public class ReverseEngineeringController {
 
     @PostMapping(value = "/Download", produces = "application/vnd.google-earth.kmz")
     public ResponseEntity<byte[]> downloadMission(@RequestParam MultiValueMap<String, String> formData) {
-        String missionName    = firstValue(formData, "missionName",     "WaypointMap Mission");
+        String missionName    = firstValue(formData, "missionName",     "DMP Mission");
         double altitude       = parseDouble(firstValue(formData, "altitude", "60"),  60);
         double speed          = parseDouble(firstValue(formData, "speed",    "3.5"), 3.5);
         double gimbalAngle    = parseDouble(firstValue(formData, "angle",    "-45"), -45);
@@ -261,7 +261,7 @@ public class ReverseEngineeringController {
 
     @PostMapping(value = "/Home/DownloadSplit", produces = "application/zip")
     public ResponseEntity<byte[]> downloadSplit(@RequestParam MultiValueMap<String, String> formData) {
-        String missionName   = firstValue(formData, "missionName",     "WaypointMap Mission");
+        String missionName   = firstValue(formData, "missionName",     "DMP Mission");
         double altitude      = parseDouble(firstValue(formData, "altitude", "60"),  60);
         double speed         = parseDouble(firstValue(formData, "speed",    "3.5"), 3.5);
         double gimbalAngle   = parseDouble(firstValue(formData, "angle",    "-45"), -45);
@@ -342,7 +342,7 @@ public class ReverseEngineeringController {
                     <html><head>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-                    <title>WaypointMap — Downloading…</title>
+                    <title>DMP — Downloading…</title>
                     <style>
                       * { margin:0; padding:0; box-sizing:border-box; }
                       body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: #e2e8f0; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:32px 20px; text-align:center; }
@@ -362,7 +362,7 @@ public class ReverseEngineeringController {
                       .tip { font-size: 11px; color: #475569; margin-top: 16px; line-height: 1.5; }
                     </style>
                     </head><body>
-                    <h1>WaypointMap</h1>
+                    <h1>DMP</h1>
                     <p class="sub">Mission KMZ</p>
                     <div class="card">
                       <div class="spinner"></div>
@@ -388,7 +388,7 @@ public class ReverseEngineeringController {
                     <html><head>
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-                    <title>WaypointMap — Download KMZ</title>
+                    <title>DMP — Download KMZ</title>
                     <style>
                       * { margin:0; padding:0; box-sizing:border-box; }
                       body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: #e2e8f0; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:32px 20px; text-align:center; }
@@ -399,11 +399,11 @@ public class ReverseEngineeringController {
                       .tip { font-size: 12px; color: #64748b; line-height: 1.6; }
                     </style>
                     </head><body>
-                    <h1>WaypointMap</h1>
+                    <h1>DMP</h1>
                     <p class="sub">Phone download portal</p>
                     <div class="card">
                       <p class="stat">No mission generated yet</p>
-                      <p class="tip">Open the WaypointMap web app on your laptop,<br>plan a mission, download the KMZ,<br>then refresh this page on your phone.</p>
+                      <p class="tip">Open the DMP web app on your laptop,<br>plan a mission, download the KMZ,<br>then refresh this page on your phone.</p>
                     </div>
                     </body></html>
                     """;

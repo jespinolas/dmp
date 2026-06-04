@@ -119,7 +119,6 @@ EOF
 elif [ "$PLATFORM" == "ios" ]; then
     echo "Building iOS $PROFILE"
 
-    # iOS local builds use EAS — requires Xcode installed
     if ! xcodebuild -version &>/dev/null; then
         echo "Error: Xcode not found. Install Xcode from the App Store."
         exit 1
@@ -127,17 +126,21 @@ elif [ "$PLATFORM" == "ios" ]; then
 
     echo "Xcode: $(xcodebuild -version | head -1)"
 
-    # Map profile names
-    EAS_PROFILE="$PROFILE"
-    case "$PROFILE" in
-        development-apk) EAS_PROFILE="development" ;;
-        production-apk)  EAS_PROFILE="production" ;;
-    esac
+    # Clean and prebuild
+    npx expo prebuild --platform ios --clean 2>&1 | tail -3
 
-    EAS_LOCAL_BUILD_SKIP_CLEANUP=0 \
-    EAS_LOCAL_BUILD_WORKINGDIR="$IOS_BUILD_DIR" \
-    EAS_LOCAL_BUILD_ARTIFACTS_DIR="$ARTIFACTS_DIR" \
-    eas build --platform ios --profile "$EAS_PROFILE" --local
+    echo ""
+    echo "Native project ready at: ios/DMP.xcworkspace"
+    echo ""
+    echo "To run on your iPhone:"
+    echo "  1. Open ios/DMP.xcworkspace in Xcode"
+    echo "  2. Select your team in Signing & Capabilities"
+    echo "  3. Plug in your iPhone"
+    echo "  4. Press ⌘R to build and run"
+    echo ""
+    echo "To build for distribution (needs Apple Developer account configured via 'eas credentials'):"
+    echo "  eas build --platform ios --profile $PROFILE --local"
+    echo ""
 
     echo ""
     echo "DONE — check $ARTIFACTS_DIR"

@@ -6,9 +6,6 @@
     "production": {
       "android": {
         "buildType": "app-bundle"
-      },
-      "ios": {
-        "buildType": "archive"
       }
     },
     "production-apk": {
@@ -35,11 +32,7 @@
     },
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "ios": {
-        "simulator": false,
-        "buildConfiguration": "Debug"
-      }
+      "distribution": "internal"
     },
     "internal-adhoc": {
       "distribution": "internal"

@@ -4,7 +4,8 @@ const path = require("path");
 
 /**
  * Fix Xcode 26 / iOS SDK 26 compile error in the fmt library.
- * Injects FMT_USE_CONSTEVAL=0 into all Pod target build settings.
+ * Xcode 26's Clang enforces consteval on FMT_STRING macros.
+ * Patches fmt/core.h to disable consteval after pod install.
  */
 function withFmtConstevalFix(config) {
   return withDangerousMod(config, [
@@ -15,25 +16,20 @@ function withFmtConstevalFix(config) {
 
       let podfile = fs.readFileSync(podfilePath, "utf8");
 
-      if (!podfile.includes("FMT_USE_CONSTEVAL")) {
+      if (!podfile.includes("patch-fmt-consteval")) {
+        // Inject a post_install script that patches the fmt header on disk
         const injection = `
 # ── Fix fmt consteval compile error with Xcode 26 / iOS SDK 26 ──
-# Injects FMT_USE_CONSTEVAL=0 into all Pod target build settings.
+# Patches fmt/core.h to disable consteval after pod install.
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      current = config.build_settings["GCC_PREPROCESSOR_DEFINITIONS"]
-      defs = if current.is_a?(Array)
-               current.dup
-             elsif current.is_a?(String)
-               [current]
-             else
-               ["$(inherited)"]
-             end
-      unless defs.any? { |d| d.to_s.include?("FMT_USE_CONSTEVAL") }
-        defs << "FMT_USE_CONSTEVAL=0"
-      end
-      config.build_settings["GCC_PREPROCESSOR_DEFINITIONS"] = defs
+  fmt_header = File.join(installer.sandbox.root, "fmt", "include", "fmt", "core.h")
+  if File.exist?(fmt_header)
+    content = File.read(fmt_header)
+    unless content.include?("FMT_USE_CONSTEVAL 0")
+      # Force-disable consteval before the library's own check
+      content.sub!('#if defined(FMT_USE_CONSTEVAL)', '#define FMT_USE_CONSTEVAL 0' + "\n" + '#if defined(FMT_USE_CONSTEVAL)')
+      File.write(fmt_header, content)
+      puts "patch-fmt-consteval: patched " + fmt_header
     end
   end
 end

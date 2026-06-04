@@ -129,18 +129,43 @@ elif [ "$PLATFORM" == "ios" ]; then
     # Clean and prebuild
     npx expo prebuild --platform ios --clean 2>&1 | tail -3
 
-    echo ""
-    echo "Native project ready at: ios/DMP.xcworkspace"
-    echo ""
-    echo "To run on your iPhone:"
-    echo "  1. Open ios/DMP.xcworkspace in Xcode"
-    echo "  2. Select your team in Signing & Capabilities"
-    echo "  3. Plug in your iPhone"
-    echo "  4. Press ⌘R to build and run"
-    echo ""
-    echo "To build for distribution (needs Apple Developer account configured via 'eas credentials'):"
-    echo "  eas build --platform ios --profile $PROFILE --local"
-    echo ""
+    # Build with xcodebuild directly — no EAS credentials needed for dev
+    SCHEME="DMP"
+    CONFIG="Debug"
+    if [ "$PROFILE" = "production" ]; then
+        CONFIG="Release"
+    fi
+
+    echo "Building $CONFIG with xcodebuild..."
+    cd ios
+
+    xcodebuild -workspace DMP.xcworkspace -scheme "$SCHEME" -configuration "$CONFIG" \
+      -sdk iphoneos -destination 'generic/platform=iOS' \
+      -archivePath "build/$SCHEME.xcarchive" \
+      -allowProvisioningUpdates \
+      CODE_SIGN_STYLE=Automatic \
+      archive 2>&1 | tail -20
+
+    if [ -d "build/$SCHEME.xcarchive" ]; then
+        ARTIFACTS_DIR="$ROOT/local_eas_builds/artifacts"
+        mkdir -p "$ARTIFACTS_DIR"
+        cp -R "build/$SCHEME.xcarchive" "$ARTIFACTS_DIR/"
+        echo ""
+        echo "DONE — archive at $ARTIFACTS_DIR/$SCHEME.xcarchive"
+        echo ""
+        echo "To install on iPhone:"
+        echo "  1. Open Xcode → Window → Devices and Simulators"
+        echo "  2. Select your iPhone"
+        echo "  3. Drag $ARTIFACTS_DIR/$SCHEME.xcarchive onto the Installed Apps list"
+        echo ""
+        echo "Or build and run directly on a connected device:"
+        echo "  npx expo run:ios --device"
+    else
+        echo "Build failed — no archive produced."
+        echo "Try opening ios/DMP.xcworkspace in Xcode and building manually."
+        exit 1
+    fi
+    cd ..
 
     echo ""
     echo "DONE — check $ARTIFACTS_DIR"

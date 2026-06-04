@@ -307,7 +307,20 @@ export function EditorScreen() {
       lat = cursorLL.lat;
       lng = cursorLL.lng;
     } else {
-      return;
+      // Fallback: try geolocation
+      try {
+        const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
+          if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 3000, maximumAge: 300000 });
+          } else {
+            reject(new Error("no geolocation"));
+          }
+        });
+        lat = pos.coords.latitude;
+        lng = pos.coords.longitude;
+      } catch {
+        return;
+      }
     }
     setWindLoading(true);
     const report = await fetchWindReport(lat, lng);
@@ -319,7 +332,6 @@ export function EditorScreen() {
       const level = windWarning(wp.speed, windMaxSpeed);
       mapRef.current.setWindOverlay(wp.speed, wp.direction, level);
       mapRef.current.setWindBarbGrid({ lat: report.lat, lng: report.lng, speed: wp.speed, direction: wp.direction, gusts: wp.gusts, level });
-      // Crosswind analysis on flight path
       if (waypoints && waypoints.length > 1) {
         const analysis = analyzeMissionWind(waypoints, wp.speed, wp.direction, windMaxSpeed);
         mapRef.current.setFlightPathCrosswind(analysis.segments);

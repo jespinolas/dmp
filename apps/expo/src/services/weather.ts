@@ -34,9 +34,12 @@ export async function fetchWindReport(lat: number, lng: number): Promise<WindRep
       timezone: "auto",
       forecast_hours: "6",
     });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
     const res = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`, {
-      signal: AbortSignal.timeout(8000),
+      signal: controller.signal,
     });
+    clearTimeout(timer);
     if (!res.ok) return null;
     const data = await res.json();
     const c = data?.current;
@@ -170,9 +173,8 @@ function bearingDeg(lat1: number, lng1: number, lat2: number, lng2: number): num
  * Returns path string that can be used as a google.maps.Symbol path.
  */
 export function windBarbPath(speedKts: number): string {
-  // Scale: 1 pixel per knot, capped
-  const kts = Math.min(speedKts, 65);
-  const staffLen = 30;  // staff length in px
+  const kts = Math.min(Math.max(speedKts, 1), 65);
+  const staffLen = 30;
   const featherSpacing = 5;
   const longFeather = 10;
   const shortFeather = 5;
@@ -180,7 +182,7 @@ export function windBarbPath(speedKts: number): string {
 
   let path = `M 0,0 L 0,${staffLen} `;  // staff from 0,0 downward
 
-  let remaining = Math.round(kts / 5); // in 5-kt increments
+  let remaining = Math.max(1, Math.round(kts / 5)); // always at least 1 notch
   let y = staffLen - 2;
 
   if (remaining >= 10) {

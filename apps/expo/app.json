@@ -33,7 +33,8 @@
             "usesCleartextTraffic": true
           },
           "ios": {
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "hermesEnabled": false
           }
         }
       ]

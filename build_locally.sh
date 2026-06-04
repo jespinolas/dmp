@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+# Fix CocoaPods + Ruby 3.4 encoding issue
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 export PROJECT_ROOT_FULL_PATH="$ROOT"
 

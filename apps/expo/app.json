@@ -1,15 +1,14 @@
 {
   "expo": {
-    "name": "WaypointMap",
-    "slug": "waypointmap",
-    "owner": "martin.espinola",
-    "scheme": "waypointmap",
+    "name": "DMP",
+    "slug": "dmp",
+    "scheme": "dmp",
     "orientation": "default",
     "web": {
       "bundler": "metro"
     },
     "android": {
-      "package": "com.waypointmap.app",
+      "package": "com.dynpar.dmp",
       "permissions": [
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
@@ -21,7 +20,7 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.waypointmap.app",
+      "bundleIdentifier": "com.dynpar.dmp",
       "config": {
         "googleMapsApiKey": "${EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}"
       }
@@ -32,14 +31,18 @@
         {
           "android": {
             "usesCleartextTraffic": true
+          },
+          "ios": {
+            "useFrameworks": "static"
           }
         }
       ]
     ],
     "extra": {
       "eas": {
-        "projectId": "38d128b4-701f-4c14-be2e-26010c341251"
+        "projectId": "cecd00c6-824f-4639-87d3-416c07dc85c7"
       }
-    }
+    },
+    "owner": "martin.espinola"
   }
 }
